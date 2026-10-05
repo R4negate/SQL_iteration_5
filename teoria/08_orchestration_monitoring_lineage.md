@@ -1,5 +1,19 @@
 # 08 - Orchestration, monitoring i lineage
 
+## Wstep dla osoby po podstawach SQL
+
+Kiedy uczysz sie SQL, recznie odpalasz jedno zapytanie po drugim.
+
+W pracy data engineera pipeline sklada sie z wielu krokow:
+
+```text
+zaladuj raw -> zbuduj staging -> zbuduj core -> zbuduj mart -> sprawdz jakosc
+```
+
+Te kroki musza uruchamiac sie w dobrej kolejnosci, a zespol musi wiedziec, czy pipeline sie udal, ile wierszy przetworzyl i z jakich tabel powstal wynik.
+
+Ta lekcja jest o organizacji pracy pipeline'u: orkiestracji, monitoringu i lineage, czyli sledzeniu skad przyszly dane i dokad poszly.
+
 ## Co to jest orchestration?
 
 `Orchestration` to zarzadzanie kolejnoscia uruchamiania zadan.

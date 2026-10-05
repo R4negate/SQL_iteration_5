@@ -1,5 +1,24 @@
 # 03 - Warstwy danych: raw, staging, core, mart oraz bronze/silver/gold
 
+## Wstep dla osoby po podstawach SQL
+
+Kiedy uczysz sie SQL, czesto pracujesz na jednej gotowej tabeli albo kilku tabelach kursowych.
+
+W prawdziwym projekcie dane rzadko od razu sa gotowe do raportu. Najpierw przychodza ze zrodla, potem trzeba je oczyscic, ujednolicic, polaczyc z innymi tabelami i dopiero na koncu przygotowac dla dashboardu.
+
+Warstwy danych pomagaja uporzadkowac ten proces.
+
+Najprostsza intuicja:
+
+```text
+raw/bronze - dane przyszly
+staging/silver - dane sa czyszczone
+core/silver - dane zaczynaja miec sens biznesowy
+mart/gold - dane sa gotowe do raportu
+```
+
+Ta lekcja jest o tym, gdzie powinna mieszkac dana logika i dlaczego dashboard nie powinien czytac bezposrednio z brudnych danych.
+
 ## Po co sa warstwy danych?
 
 Warstwy danych pomagaja oddzielic odpowiedzialnosci.

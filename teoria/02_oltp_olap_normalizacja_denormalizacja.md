@@ -1,5 +1,19 @@
 # 02 - OLTP, OLAP, normalizacja i denormalizacja
 
+## Wstep dla osoby po podstawach SQL
+
+Na poczatku nauki SQL widzisz tabele jako miejsce, z ktorego robisz `SELECT`.
+
+W praktyce bardzo wazne jest pytanie:
+
+```text
+Po co ta tabela istnieje?
+```
+
+Jedne tabele sa tworzone po to, zeby aplikacja mogla szybko zapisac zamowienie, platnosc albo zmiane emaila. Inne tabele sa tworzone po to, zeby analityk mogl szybko policzyc sprzedaz miesieczna albo ranking produktow.
+
+Ta lekcja pokazuje roznice miedzy baza pod aplikacje a baza pod analityke. Dzieki temu latwiej zrozumiesz, dlaczego czasem dane sa rozbite na wiele tabel, a czasem celowo laczymy je w jedna wygodna tabele raportowa.
+
 ## Po co ta lekcja?
 
 Ta sama firma moze miec dwa rozne sposoby przechowywania danych:
@@ -496,4 +510,3 @@ Powinienes umiec:
 - rozpoznac proste naruszenie 1NF, 2NF i 3NF,
 - powiedziec kiedy denormalizacja ma sens,
 - wskazac grain tabeli raportowej.
-

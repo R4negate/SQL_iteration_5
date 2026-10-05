@@ -1,5 +1,27 @@
 # 05 - Fakty, wymiary i star schema
 
+## Wstep dla osoby po podstawach SQL
+
+Do tej pory znasz tabele takie jak `customers`, `orders`, `products` i `order_items`.
+
+To sa dobre tabele do nauki joinow i agregacji. Ale gdy firma zaczyna budowac raporty, dashboardy i hurtownie danych, czesto uklada dane w specjalny model analityczny.
+
+Ta lekcja odpowiada na pytanie:
+
+```text
+Jak ulozyc dane, zeby latwo liczyc sprzedaz, liczbe zamowien, klientow i produkty?
+```
+
+Najwazniejsze slowa to:
+
+```text
+fakt - zdarzenie i liczby
+wymiar - opis i kontekst
+grain - co oznacza jeden wiersz
+```
+
+Jesli zrozumiesz grain, bedzie Ci znacznie latwiej unikac bledow typu zawyzone `COUNT` albo zdublowane revenue.
+
 ## Po co model analityczny?
 
 Tabele aplikacyjne sa dobre dla aplikacji.
@@ -630,4 +652,3 @@ Powinienes umiec:
 - rozroznic natural key i surrogate key,
 - narysowac prosta star schema,
 - napisac proste zapytanie laczace fakt z wymiarami.
-

@@ -1,5 +1,21 @@
 # 09 - Batch, streaming, partycjonowanie i storage thinking
 
+## Wstep dla osoby po podstawach SQL
+
+Na poczatku nauki SQL nie myslisz jeszcze o tym, czy tabela ma tysiac, milion czy miliard wierszy.
+
+W pracy z danymi rozmiar tabeli i sposob przetwarzania maja ogromne znaczenie. Inaczej pracuje sie z raportem odswiezanym raz dziennie, a inaczej z eventami, ktore musza byc obslugiwane prawie natychmiast.
+
+Ta lekcja odpowiada na trzy proste pytania:
+
+```text
+Czy dane przetwarzamy porcjami czy na biezaco?
+Czy tabela jest tak duza, ze trzeba ja podzielic?
+Czy zapytanie czyta tylko potrzebny fragment danych?
+```
+
+Nie chodzi jeszcze o zaawansowana administracje baza. Chodzi o intuicje: duze dane wymagaja myslenia o czasie, rozmiarze i sposobie przechowywania.
+
 ## Po co ta lekcja?
 
 Data engineer nie tylko pisze SQL.
@@ -457,4 +473,3 @@ Powinienes umiec:
 - wyjasnic partition pruning,
 - powiedziec kiedy partycjonowanie ma sens,
 - powiedziec czym jest over-partitioning.
-

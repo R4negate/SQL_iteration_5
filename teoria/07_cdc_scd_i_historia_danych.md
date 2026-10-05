@@ -1,5 +1,24 @@
 # 07 - CDC, SCD i historia danych
 
+## Wstep dla osoby po podstawach SQL
+
+Na kursowych tabelach dane czesto wygladaja tak, jakby byly stale.
+
+W prawdziwych systemach dane sie zmieniaja:
+
+- klient zmienia kraj,
+- produkt zmienia cene,
+- zamowienie zmienia status,
+- rekord moze zostac usuniety.
+
+To tworzy wazne pytanie:
+
+```text
+czy chcemy widziec tylko aktualny stan, czy historie zmian?
+```
+
+Ta lekcja pokazuje, jak data engineer mysli o zmianach danych. CDC pomaga zrozumiec, co sie zmienilo, a SCD pokazuje, jak przechowywac historie zmian w wymiarach, np. w tabeli klientow.
+
 ## Po co ta lekcja?
 
 Dane w systemach zrodlowych nie stoja w miejscu.
@@ -666,4 +685,3 @@ Powinienes umiec:
 - powiedziec kiedy przechowujemy historie,
 - wyjasnic `valid_from`, `valid_to`, `is_current`,
 - napisac prosty join faktu z wymiarem SCD2 po zakresie dat.
-

@@ -1,5 +1,25 @@
 # 04 - Idempotencja i incremental load
 
+## Wstep dla osoby po podstawach SQL
+
+Na lekcjach SQL zwykle uruchamiasz zapytanie raz i patrzysz, czy wynik jest poprawny.
+
+W pracy data engineera to nie wystarcza.
+
+Pipeline moze zostac uruchomiony dzisiaj, jutro, po bledzie, drugi raz dla tej samej daty albo ponownie po poprawce. Dlatego trzeba myslec nie tylko:
+
+```text
+czy query dziala?
+```
+
+ale tez:
+
+```text
+co sie stanie, jezeli uruchomie je jeszcze raz?
+```
+
+Ta lekcja pokazuje, jak projektowac ladowanie danych tak, zeby ponowne uruchomienie nie tworzylo duplikatow i nie psulo raportu.
+
 ## Po co ta lekcja?
 
 W poprzednich lekcjach pisalismy zapytania i budowalismy warstwy danych.
@@ -489,4 +509,3 @@ Powinienes umiec:
 - powiedziec po co jest watermark,
 - powiedziec po co sa `loaded_at`, `source_file` i `batch_id`,
 - wyjasnic problem spoznionych danych.
-

@@ -1,5 +1,25 @@
 # 01 - ETL, ELT i architektura danych
 
+## Wstep dla osoby po podstawach SQL
+
+Do tej pory SQL mogl kojarzyc Ci sie glownie z pisaniem zapytan:
+
+```sql
+SELECT ...
+FROM ...
+WHERE ...
+```
+
+W pracy z danymi samo zapytanie to tylko jeden element wiekszej calosci. Dane musza skads przyjsc, zostac zapisane, oczyszczone, sprawdzone i przygotowane do raportow.
+
+Ta lekcja odpowiada na proste pytanie:
+
+```text
+Jak dane przechodza od zrodla do tabeli, z ktorej korzysta analityk albo dashboard?
+```
+
+ETL i ELT to dwa podstawowe sposoby organizowania takiego przeplywu. Nie musisz jeszcze znac narzedzi produkcyjnych. Na tym etapie najwazniejsze jest zrozumiec kolejnosc krokow: pobranie danych, zapisanie danych i transformacja danych.
+
 ## Po co data engineerowi architektura danych?
 
 Pisanie SQL-a to tylko czesc pracy.

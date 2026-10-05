@@ -1,5 +1,19 @@
 # 06 - Data quality i reconciliation
 
+## Wstep dla osoby po podstawach SQL
+
+Pisanie zapytan to jedno. Drugie pytanie brzmi:
+
+```text
+czy danym mozna ufac?
+```
+
+W prawdziwych danych zdarzaja sie duplikaty, braki, zle statusy, ujemne kwoty, zamowienia bez klienta albo produkty bez dopasowania.
+
+Data engineer nie tylko tworzy tabele. Musi tez umiec sprawdzic, czy dane sa poprawne i czy liczby zgadzaja sie miedzy warstwami.
+
+Ta lekcja jest o prostych kontrolach jakosci danych oraz o sprawdzaniu, czy np. suma sprzedazy w stagingu zgadza sie z suma w marcie raportowym.
+
 ## Co to jest data quality?
 
 `Data quality` oznacza jakosc danych.
