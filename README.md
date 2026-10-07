@@ -75,5 +75,5 @@ projekt_koncowy
 Projekt polega na zbudowaniu mini-platformy analitycznej commerce w PostgreSQL:
 
 ```text
-source -> bronze -> silver -> gold -> zapytania analityczne
+raw -> bronze -> silver -> gold -> zapytania analityczne
 ```
