@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1240" viewBox="0 0 1600 1240" role="img" aria-labelledby="title desc">
+  <title id="title">Star schema: fakt w centrum i cztery wymiary</title>
+  <desc id="desc">Tabela fact_order_items zawiera jedną pozycję zamówienia w wierszu. Jej klucze obce łączą się z kluczami głównymi wymiarów klienta, produktu, daty i kanału sprzedaży. Jeden rekord wymiaru może opisywać wiele pozycji zamówień.</desc>
+  <defs>
+    <style>
+      text{font-family:'Segoe UI',Arial,sans-serif;fill:#182b36;letter-spacing:0}
+      .h1{font-size:42px;font-weight:700}.sub{font-size:23px;fill:#50636f}
+      .name{font-family:Consolas,monospace;font-size:25px;font-weight:700}
+      .field{font-family:Consolas,monospace;font-size:22px}.label{font-size:21px;fill:#50636f}
+      .white{fill:#fff}.card{fill:white;stroke:#ccd8de;stroke-width:2}
+      .link{fill:none;stroke:#80939e;stroke-width:3}.num{font-size:24px;font-weight:700;fill:#50636f}
+    </style>
+  </defs>
+  <rect width="1600" height="1240" fill="#f4f7f9"/>
+  <text x="60" y="70" class="h1">Star schema: liczby w centrum, opisy dookoła</text>
+  <text x="60" y="110" class="sub">Przykład sklepu: jedna pozycja zamówienia łączy odpowiedzi na cztery pytania.</text>
+
+  <path d="M800 338 V405" class="link"/>
+  <path d="M465 630 H540" class="link"/>
+  <path d="M1135 630 H1060" class="link"/>
+  <path d="M800 915 V820" class="link"/>
+  <text x="817" y="366" class="num">1</text><text x="817" y="396" class="num">N</text>
+  <text x="478" y="616" class="num">1</text><text x="513" y="616" class="num">N</text>
+  <text x="1107" y="616" class="num">1</text><text x="1074" y="616" class="num">N</text>
+  <text x="817" y="896" class="num">1</text><text x="817" y="854" class="num">N</text>
+
+  <g transform="translate(555 160)">
+    <rect width="490" height="178" rx="8" class="card"/>
+    <path d="M8 0H482Q490 0 490 8V55H0V8Q0 0 8 0" fill="#2875a0"/>
+    <text x="22" y="36" class="name white">dim_customer</text>
+    <text x="22" y="88" class="field">PK  customer_key</text>
+    <text x="22" y="121" class="field">customer_name · country</text>
+    <text x="22" y="155" class="label">KTO kupił? Skąd jest klient?</text>
+  </g>
+
+  <g transform="translate(45 495)">
+    <rect width="420" height="225" rx="8" class="card"/>
+    <path d="M8 0H412Q420 0 420 8V55H0V8Q0 0 8 0" fill="#2875a0"/>
+    <text x="22" y="36" class="name white">dim_date</text>
+    <text x="22" y="93" class="field">PK  date_key</text>
+    <text x="22" y="132" class="field">full_date · year</text>
+    <text x="22" y="169" class="field">month · quarter</text>
+    <text x="22" y="205" class="label">KIEDY kupiono?</text>
+  </g>
+
+  <g transform="translate(1135 495)">
+    <rect width="420" height="225" rx="8" class="card"/>
+    <path d="M8 0H412Q420 0 420 8V55H0V8Q0 0 8 0" fill="#2875a0"/>
+    <text x="22" y="36" class="name white">dim_product</text>
+    <text x="22" y="93" class="field">PK  product_key</text>
+    <text x="22" y="132" class="field">product_name</text>
+    <text x="22" y="169" class="field">category · base_price</text>
+    <text x="22" y="205" class="label">CO kupiono?</text>
+  </g>
+
+  <g transform="translate(540 405)">
+    <rect width="520" height="415" rx="8" fill="#fff" stroke="#16806d" stroke-width="3"/>
+    <path d="M8 0H512Q520 0 520 8V63H0V8Q0 0 8 0" fill="#16806d"/>
+    <text x="24" y="41" class="name white">fact_order_items</text>
+    <text x="24" y="99" class="field">PK  order_item_key</text>
+    <text x="24" y="137" class="field">FK  customer_key</text>
+    <text x="24" y="175" class="field">FK  product_key</text>
+    <text x="24" y="213" class="field">FK  order_date_key</text>
+    <text x="24" y="251" class="field">FK  sales_channel_key</text>
+    <line x1="24" y1="273" x2="496" y2="273" stroke="#d5e5df" stroke-width="2"/>
+    <text x="24" y="309" class="field">order_id</text>
+    <rect x="16" y="327" width="488" height="69" rx="5" fill="#e2f3eb"/>
+    <text x="24" y="356" class="field">quantity · unit_price</text>
+    <text x="24" y="385" class="field">net_value  ← miary sprzedaży</text>
+  </g>
+
+  <g transform="translate(555 915)">
+    <rect width="490" height="171" rx="8" class="card"/>
+    <path d="M8 0H482Q490 0 490 8V55H0V8Q0 0 8 0" fill="#2875a0"/>
+    <text x="22" y="36" class="name white">dim_sales_channel</text>
+    <text x="22" y="90" class="field">PK  sales_channel_key</text>
+    <text x="22" y="125" class="field">channel_name</text>
+    <text x="22" y="154" class="label">GDZIE kupiono? Np. sklep WWW.</text>
+  </g>
+
+  <rect x="60" y="1120" width="1480" height="75" rx="6" fill="#e6edf2"/>
+  <text x="84" y="1150" font-size="23" font-weight="700">Grain: 1 wiersz faktu = 1 pozycja zamówienia.</text>
+  <text x="84" y="1180" font-size="21">PK = klucz główny · FK = klucz obcy · 1:N = jeden rekord wymiaru opisuje wiele wierszy faktu.</text>
+</svg>

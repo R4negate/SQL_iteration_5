@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1470" viewBox="0 0 1600 1470" role="img" aria-labelledby="title desc" xml:space="preserve">
+  <title id="title">Od kluczy i miar do raportu sprzedaży</title>
+  <desc id="desc">Trzy pozycje faktu mają klucze klienta, produktu i daty. Wymiary dostarczają kraj, kategorię i miesiąc. JOIN dodaje opisy, a GROUP BY i SUM tworzą raport o grainie miesiąc, kraj i kategoria. Łączna wartość pozostaje 300.20.</desc>
+  <defs><style>
+    text{font-family:'Segoe UI',Arial,sans-serif;fill:#182b36;letter-spacing:0}
+    .h1{font-size:42px;font-weight:700}.sub{font-size:23px;fill:#50636f}
+    .name{font-family:Consolas,monospace;font-size:25px;font-weight:700}
+    .mono,.mono text{font-family:Consolas,monospace;font-size:23px}.small{font-size:21px;fill:#50636f}
+    .white,.white text{fill:white}.step{font-size:25px;font-weight:700;fill:#16806d}
+    .line{stroke:#e1e7eb;stroke-width:1}
+  </style></defs>
+  <rect width="1600" height="1470" fill="#f4f7f9"/>
+  <text x="60" y="70" class="h1">Jak z gwiazdy powstaje raport?</text>
+  <text x="60" y="111" class="sub">Miary pochodzą z faktu. Nazwy grup i filtrów pochodzą z wymiarów.</text>
+
+  <text x="60" y="173" class="step">1. FAKT: klucze i kwota każdej pozycji</text>
+  <text x="60" y="210" class="name">fact_order_items</text>
+  <rect x="60" y="230" width="1480" height="222" rx="6" fill="white" stroke="#ccd8de" stroke-width="2"/>
+  <path d="M66 230H1534Q1540 230 1540 236V290H60V236Q60 230 66 230" fill="#16806d"/>
+  <g class="mono white" font-weight="700">
+    <text x="84" y="270">customer_key</text><text x="430" y="270">product_key</text>
+    <text x="785" y="270">order_date_key</text><text x="1250" y="270">net_value</text>
+  </g>
+  <path d="M60 344H1540M60 398H1540" class="line"/>
+  <g class="mono">
+    <text x="84" y="326">11</text><text x="430" y="326">201</text><text x="785" y="326">20260501</text><text x="1250" y="326">99.00</text>
+    <text x="84" y="380">11</text><text x="430" y="380">204</text><text x="785" y="380">20260501</text><text x="1250" y="380">52.20</text>
+    <text x="84" y="434">12</text><text x="430" y="434">202</text><text x="785" y="434">20260501</text><text x="1250" y="434">149.00</text>
+  </g>
+  <text x="60" y="489" class="small">Pokazano wybrane kolumny. Każdy wiersz to inna pozycja zamówienia.</text>
+
+  <text x="60" y="550" class="step">2. WYMIARY: dopasuj klucze i odczytaj opisy</text>
+  <g transform="translate(60 575)">
+    <rect width="460" height="219" rx="7" fill="white" stroke="#ccd8de" stroke-width="2"/>
+    <path d="M7 0H453Q460 0 460 7V54H0V7Q0 0 7 0" fill="#2875a0"/>
+    <text x="20" y="36" class="name white">dim_customer</text>
+    <text x="20" y="94" class="mono" font-weight="700">customer_key  country</text>
+    <text x="20" y="139" class="mono">11            PL</text>
+    <text x="20" y="184" class="mono">12            DE</text>
+  </g>
+  <g transform="translate(570 575)">
+    <rect width="460" height="219" rx="7" fill="white" stroke="#ccd8de" stroke-width="2"/>
+    <path d="M7 0H453Q460 0 460 7V54H0V7Q0 0 7 0" fill="#2875a0"/>
+    <text x="20" y="36" class="name white">dim_product</text>
+    <text x="20" y="94" class="mono" font-weight="700">product_key  category</text>
+    <text x="20" y="131" class="mono">201          course</text>
+    <text x="20" y="168" class="mono">204          ebook</text>
+    <text x="20" y="205" class="mono">202          course</text>
+  </g>
+  <g transform="translate(1080 575)">
+    <rect width="460" height="219" rx="7" fill="white" stroke="#ccd8de" stroke-width="2"/>
+    <path d="M7 0H453Q460 0 460 7V54H0V7Q0 0 7 0" fill="#2875a0"/>
+    <text x="20" y="36" class="name white">dim_date</text>
+    <text x="20" y="94" class="mono" font-weight="700">date_key  year  month</text>
+    <text x="20" y="139" class="mono">20260501  2026  5</text>
+    <text x="20" y="184" class="small">1 klucz = 1 dzień w wymiarze</text>
+  </g>
+
+  <rect x="60" y="825" width="1480" height="134" rx="6" fill="#e6edf2"/>
+  <text x="84" y="863" class="mono">f.customer_key = c.customer_key</text>
+  <text x="84" y="901" class="mono">f.product_key = p.product_key</text>
+  <text x="84" y="939" class="mono">f.order_date_key = d.date_key</text>
+  <text x="840" y="878" font-size="25" font-weight="700">JOIN dodaje kontekst do pozycji.</text>
+  <text x="840" y="916" class="small">Przy unikalnym kluczu wymiaru</text>
+  <text x="840" y="944" class="small">nie mnoży wierszy faktu.</text>
+
+  <text x="60" y="1020" class="step">3. RAPORT: GROUP BY rok, miesiąc, kraj, kategoria + SUM(net_value)</text>
+  <rect x="60" y="1047" width="1480" height="222" rx="6" fill="white" stroke="#ccd8de" stroke-width="2"/>
+  <path d="M66 1047H1534Q1540 1047 1540 1053V1107H60V1053Q60 1047 66 1047" fill="#6a518c"/>
+  <g class="mono white" font-weight="700">
+    <text x="84" y="1087">year</text><text x="310" y="1087">month</text><text x="560" y="1087">country</text><text x="845" y="1087">category</text><text x="1190" y="1087">total_revenue</text>
+  </g>
+  <path d="M60 1161H1540M60 1215H1540" class="line"/>
+  <g class="mono">
+    <text x="84" y="1143">2026</text><text x="310" y="1143">5</text><text x="560" y="1143">PL</text><text x="845" y="1143">course</text><text x="1190" y="1143">99.00</text>
+    <text x="84" y="1197">2026</text><text x="310" y="1197">5</text><text x="560" y="1197">PL</text><text x="845" y="1197">ebook</text><text x="1190" y="1197">52.20</text>
+    <text x="84" y="1251">2026</text><text x="310" y="1251">5</text><text x="560" y="1251">DE</text><text x="845" y="1251">course</text><text x="1190" y="1251">149.00</text>
+  </g>
+  <text x="60" y="1320" font-size="25" font-weight="700">Nowy grain raportu: 1 wiersz = rok + miesiąc + kraj + kategoria.</text>
+  <text x="60" y="1360" class="sub">Wszystkie pozycje należące do tej samej grupy zostają zsumowane do jednego wiersza.</text>
+  <text x="60" y="1400" class="sub">Suma kontrolna przed i po agregacji: 99.00 + 52.20 + 149.00 = 300.20.</text>
+</svg>

@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1390" viewBox="0 0 1600 1390" role="img" aria-labelledby="title desc">
+  <title id="title">Relacje między tabelami na przykładzie sklepu</title>
+  <desc id="desc">Jeden klient może mieć wiele zamówień. Jeden klient może mieć zero lub jeden dodatkowy profil. Wiele zamówień zawiera wiele produktów; tabela order_items rozbija tę relację na dwa powiązania jeden do wielu.</desc>
+  <defs><style>
+    text{font-family:'Segoe UI',Arial,sans-serif;fill:#182b36;letter-spacing:0}
+    .h1{font-size:42px;font-weight:700}.sub{font-size:23px;fill:#50636f}
+    .h2{font-size:28px;font-weight:700}.body{font-size:24px}
+    .name{font-family:Consolas,monospace;font-size:25px;font-weight:700;fill:white}
+    .mono{font-family:Consolas,monospace;font-size:23px}.small{font-size:21px;fill:#50636f}
+    .rel{font-size:26px;font-weight:700}.line{stroke:#8396a2;stroke-width:3;fill:none}
+  </style></defs>
+  <rect width="1600" height="1390" fill="#f4f7f9"/>
+  <text x="60" y="70" class="h1">Te same JOIN-y, różna liczba dopasowań</text>
+  <text x="60" y="112" class="sub">Pytaj w obie strony: ile rekordów jednej tabeli może pasować do rekordu drugiej?</text>
+
+  <rect x="60" y="153" width="1480" height="315" rx="7" fill="white" stroke="#d0dce2"/>
+  <text x="90" y="198" class="h2">1:N · Jeden klient, wiele zamówień</text>
+  <g transform="translate(95 234)">
+    <rect width="430" height="145" rx="6" fill="#e8f2fa"/>
+    <path d="M6 0H424Q430 0 430 6V48H0V6Q0 0 6 0" fill="#2875a0"/>
+    <text x="20" y="33" class="name">customers</text>
+    <text x="20" y="85" class="mono">customer_id = 1</text>
+    <text x="20" y="121" class="body">Anna Kowalska</text>
+  </g>
+  <g transform="translate(950 234)">
+    <rect width="495" height="145" rx="6" fill="#e5f3ee"/>
+    <path d="M6 0H489Q495 0 495 6V48H0V6Q0 0 6 0" fill="#16806d"/>
+    <text x="20" y="33" class="name">orders</text>
+    <text x="20" y="85" class="mono">1001 → customer_id = 1</text>
+    <text x="20" y="121" class="mono">1004 → customer_id = 1</text>
+  </g>
+  <path d="M525 310H950" class="line"/>
+  <text x="550" y="297" class="rel">1</text><text x="910" y="297" class="rel">N</text>
+  <text x="610" y="345" class="small">FK: orders.customer_id</text>
+  <text x="95" y="431" class="body">Po JOIN-ie Anna wystąpi przy każdym swoim zamówieniu. To nie błąd ani duplikat klienta w źródle.</text>
+
+  <rect x="60" y="493" width="1480" height="310" rx="7" fill="white" stroke="#d0dce2"/>
+  <text x="90" y="539" class="h2">1:1 · Jeden klient, najwyżej jeden dodatkowy profil</text>
+  <g transform="translate(95 576)">
+    <rect width="430" height="135" rx="6" fill="#e8f2fa"/>
+    <path d="M6 0H424Q430 0 430 6V48H0V6Q0 0 6 0" fill="#2875a0"/>
+    <text x="20" y="33" class="name">customers</text>
+    <text x="20" y="94" class="mono">customer_id = 1</text>
+  </g>
+  <g transform="translate(950 576)">
+    <rect width="495" height="135" rx="6" fill="#fff2d2"/>
+    <path d="M6 0H489Q495 0 495 6V48H0V6Q0 0 6 0" fill="#886114"/>
+    <text x="20" y="33" class="name">customer_profiles</text>
+    <text x="20" y="94" class="mono">PK + FK: customer_id = 1</text>
+  </g>
+  <path d="M525 650H950" class="line"/>
+  <text x="550" y="637" class="rel">1</text><text x="870" y="637" class="rel">0..1</text>
+  <text x="620" y="686" class="small">Profil jest opcjonalny.</text>
+  <text x="95" y="761" class="body">Unikalny customer_id w profilu nie pozwala przypisać klientowi dwóch profili.</text>
+
+  <rect x="60" y="828" width="1480" height="430" rx="7" fill="white" stroke="#d0dce2"/>
+  <text x="90" y="874" class="h2">N:M · Wiele zamówień, wiele produktów</text>
+  <text x="95" y="914" class="small">Tabela pośrednia order_items zapisuje, który produkt znalazł się w którym zamówieniu.</text>
+  <g transform="translate(95 966)">
+    <rect width="330" height="178" rx="6" fill="#e8f2fa"/>
+    <path d="M6 0H324Q330 0 330 6V48H0V6Q0 0 6 0" fill="#2875a0"/>
+    <text x="20" y="33" class="name">orders</text>
+    <text x="20" y="89" class="mono">order_id</text>
+    <text x="20" y="127" class="mono">1001</text>
+    <text x="20" y="163" class="mono">1002</text>
+  </g>
+  <g transform="translate(550 966)">
+    <rect width="490" height="178" rx="6" fill="#e5f3ee"/>
+    <path d="M6 0H484Q490 0 490 6V48H0V6Q0 0 6 0" fill="#16806d"/>
+    <text x="20" y="33" class="name">order_items</text>
+    <text x="20" y="83" class="mono">order_id</text><text x="250" y="83" class="mono">product_id</text>
+    <text x="20" y="114" class="mono">1001</text><text x="250" y="114" class="mono">101</text>
+    <text x="20" y="140" class="mono">1001</text><text x="250" y="140" class="mono">103</text>
+    <text x="20" y="166" class="mono">1002</text><text x="250" y="166" class="mono">101</text>
+  </g>
+  <g transform="translate(1150 966)">
+    <rect width="295" height="178" rx="6" fill="#e8f2fa"/>
+    <path d="M6 0H289Q295 0 295 6V48H0V6Q0 0 6 0" fill="#2875a0"/>
+    <text x="20" y="33" class="name">products</text>
+    <text x="20" y="89" class="mono">product_id</text>
+    <text x="20" y="127" class="mono">101</text>
+    <text x="20" y="163" class="mono">103</text>
+  </g>
+  <path d="M425 1065H550M1040 1065H1150" class="line"/>
+  <text x="441" y="1052" class="rel">1</text><text x="510" y="1052" class="rel">N</text>
+  <text x="1052" y="1052" class="rel">N</text><text x="1112" y="1052" class="rel">1</text>
+  <text x="95" y="1204" class="body">Jedno N:M obsługujemy przez dwa 1:N. Wynik JOIN-a przez order_items opisuje pozycje zamówień.</text>
+
+  <rect x="60" y="1285" width="1480" height="65" rx="6" fill="#e6edf2"/>
+  <text x="85" y="1327" class="h2">Przed agregacją ustal grain: co oznacza jeden wiersz po wszystkich JOIN-ach?</text>
+</svg>

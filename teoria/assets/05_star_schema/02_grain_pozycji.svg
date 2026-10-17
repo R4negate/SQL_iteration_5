@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1140" viewBox="0 0 1600 1140" role="img" aria-labelledby="title desc">
+  <title id="title">Grain: jedno zamówienie może mieć wiele pozycji faktu</title>
+  <desc id="desc">Zamówienie 1001 ma dwa produkty i zajmuje dwa wiersze w fact_order_items. Trzy pozycje w tabeli reprezentują dwa zamówienia. COUNT(*) daje trzy, COUNT(DISTINCT order_id) daje dwa, a SUM(net_value) daje 300.20.</desc>
+  <defs><style>
+    text{font-family:'Segoe UI',Arial,sans-serif;fill:#182b36;letter-spacing:0}
+    .h1{font-size:42px;font-weight:700}.sub{font-size:23px;fill:#50636f}
+    .name{font-family:Consolas,monospace;font-size:25px;font-weight:700}
+    .body{font-size:25px}.mono,.mono text{font-family:Consolas,monospace;font-size:23px}
+    .small{font-size:21px;fill:#50636f}.white,.white text{fill:white}
+  </style></defs>
+  <rect width="1600" height="1140" fill="#f4f7f9"/>
+  <text x="60" y="70" class="h1">Grain: liczymy pozycje czy zamówienia?</text>
+  <text x="60" y="111" class="sub">Dwa produkty w jednym koszyku to dwa wiersze faktu, ale nadal jedno zamówienie.</text>
+
+  <rect x="60" y="161" width="720" height="225" rx="8" fill="white" stroke="#d5a32e" stroke-width="2"/>
+  <rect x="60" y="161" width="720" height="60" rx="8" fill="#fff0cb"/>
+  <text x="85" y="201" class="name">Zamówienie 1001</text>
+  <text x="85" y="260" class="body">SQL Course: 1 szt. → 99.00</text>
+  <text x="85" y="309" class="body">Ebook: 2 szt. → 52.20</text>
+  <text x="85" y="356" class="small">2 pozycje · wartość zamówienia 151.20</text>
+
+  <rect x="820" y="161" width="720" height="225" rx="8" fill="white" stroke="#ccd8de" stroke-width="2"/>
+  <rect x="820" y="161" width="720" height="60" rx="8" fill="#e5eef7"/>
+  <text x="845" y="201" class="name">Zamówienie 1002</text>
+  <text x="845" y="260" class="body">Python Course: 1 szt. → 149.00</text>
+  <text x="845" y="356" class="small">1 pozycja · wartość zamówienia 149.00</text>
+
+  <path d="M420 394V430H800V456M1180 394V430H800" fill="none" stroke="#80939e" stroke-width="3"/>
+  <path d="M791 445L800 457L809 445" fill="none" stroke="#80939e" stroke-width="3"/>
+  <text x="60" y="460" class="name">fact_order_items</text>
+  <rect x="60" y="485" width="1480" height="240" rx="6" fill="white" stroke="#ccd8de" stroke-width="2"/>
+  <path d="M66 485H1534Q1540 485 1540 491V545H60V491Q60 485 66 485" fill="#16806d"/>
+  <g class="mono white" font-weight="700">
+    <text x="82" y="525">order_item_key</text><text x="365" y="525">order_id</text>
+    <text x="625" y="525">product_key</text><text x="970" y="525">quantity</text>
+    <text x="1260" y="525">net_value</text>
+  </g>
+  <rect x="61" y="545" width="1478" height="120" fill="#fff7e4"/>
+  <g stroke="#e1e7eb"><path d="M60 605H1540M60 665H1540"/></g>
+  <g class="mono">
+    <text x="82" y="584">5001</text><text x="365" y="584">1001</text><text x="625" y="584">201</text><text x="970" y="584">1</text><text x="1260" y="584">99.00</text>
+    <text x="82" y="644">5002</text><text x="365" y="644">1001</text><text x="625" y="644">204</text><text x="970" y="644">2</text><text x="1260" y="644">52.20</text>
+    <text x="82" y="704">5003</text><text x="365" y="704">1002</text><text x="625" y="704">202</text><text x="970" y="704">1</text><text x="1260" y="704">149.00</text>
+  </g>
+  <text x="60" y="769" class="small">Zaznaczone wiersze mają ten sam order_id. To poprawne: grainem faktu jest pozycja, a nie całe zamówienie.</text>
+
+  <g transform="translate(60 820)">
+    <rect width="460" height="155" rx="8" fill="white" stroke="#ccd8de" stroke-width="2"/>
+    <text x="24" y="41" class="mono">COUNT(*)</text>
+    <text x="24" y="101" font-size="47" font-weight="700" fill="#16806d">3</text>
+    <text x="105" y="99" class="body">pozycje zamówień</text>
+  </g>
+  <g transform="translate(570 820)">
+    <rect width="460" height="155" rx="8" fill="white" stroke="#ccd8de" stroke-width="2"/>
+    <text x="24" y="41" class="mono">COUNT(DISTINCT order_id)</text>
+    <text x="24" y="101" font-size="47" font-weight="700" fill="#2875a0">2</text>
+    <text x="105" y="99" class="body">zamówienia</text>
+  </g>
+  <g transform="translate(1080 820)">
+    <rect width="460" height="155" rx="8" fill="white" stroke="#ccd8de" stroke-width="2"/>
+    <text x="24" y="41" class="mono">SUM(net_value)</text>
+    <text x="24" y="101" font-size="47" font-weight="700" fill="#16806d">300.20</text>
+    <text x="24" y="134" class="small">łączna wartość pozycji</text>
+  </g>
+  <rect x="60" y="1017" width="1480" height="75" rx="6" fill="#e6edf2"/>
+  <text x="84" y="1047" font-size="23" font-weight="700">Dobierz agregację do grainu.</text>
+  <text x="84" y="1077" class="small">Nie sumuj kwoty całego zamówienia po jego powieleniu na wiele pozycji. Sumuj wartości pozycji.</text>
+</svg>

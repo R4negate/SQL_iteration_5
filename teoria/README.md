@@ -11,6 +11,9 @@ Kolejnosc lekcji:
 7. `07_cdc_scd_i_historia_danych.md`
 8. `08_orchestration_monitoring_lineage.md`
 9. `09_batch_streaming_partycjonowanie.md`
+10. [10_relacje_miedzy_tabelami.md](10_relacje_miedzy_tabelami.md)
+
+Lekcja 10 porzadkuje relacje znane z JOIN-ow. Mozesz przeczytac ja takze przed lekcja 05 jako przygotowanie do star schema.
 
 Glowne pytanie tej iteracji:
 

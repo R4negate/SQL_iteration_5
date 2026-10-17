@@ -133,6 +133,7 @@ moze miec kolumny:
 - `customer_key`,
 - `product_key`,
 - `order_date_key`,
+- `sales_channel_key`,
 - `quantity`,
 - `unit_price`,
 - `gross_value`,
@@ -297,6 +298,30 @@ Tu zamowienie `1001` wystepuje dwa razy, bo ma dwie pozycje.
 
 To jest poprawne, jesli jasno wiemy, ze grain to pozycja zamowienia.
 
+### Zobacz grain na konkretnym zamowieniu
+
+![Dwa zamowienia rozpisane na trzy pozycje faktu oraz porownanie COUNT, COUNT DISTINCT i SUM.](assets/05_star_schema/02_grain_pozycji.png)
+
+Czytaj obrazek od gory do dolu:
+
+1. Klient sklada zamowienie `1001`, w ktorym kupuje kurs SQL i ebook. Sa to dwie rozne pozycje zamowienia.
+2. Drugie zamowienie, `1002`, zawiera jedna pozycje: kurs Pythona.
+3. Do `fact_order_items` trafiaja trzy wiersze, a nie dwa. Kazda pozycja dostaje osobny `order_item_key`.
+4. `quantity = 2` przy ebooku oznacza dwie sztuki na jednej pozycji, a nie dwa osobne wiersze faktu.
+
+Dlatego dla tego przykladu:
+
+| Co chcemy policzyc? | Wyrazenie | Wynik |
+|---|---|---|
+| Liczba pozycji zamowien | `COUNT(*)` | `3` |
+| Liczba zamowien | `COUNT(DISTINCT order_id)` | `2` |
+| Liczba sprzedanych sztuk | `SUM(quantity)` | `4` |
+| Laczna wartosc sprzedazy | `SUM(net_value)` | `300.20` |
+
+`net_value` na ilustracji jest wartoscia calej pozycji, juz uwzgledniajaca liczbe sztuk. Dlatego nie mnozymy jej ponownie przez `quantity`.
+
+Na ilustracji uzywamy technicznego `product_key`, a w poprzedniej tabelce zrodlowego `product_id`. Przykladowo produkt z `product_id = 101` otrzymal w wymiarze `product_key = 201`. To dwa identyfikatory tego samego produktu w roznych warstwach, nie wymog, zeby ich wartosci byly takie same.
+
 ## Tabela wymiarow
 
 Tabela wymiarow przechowuje opisowy kontekst.
@@ -403,6 +428,8 @@ sprzedaz weekday vs weekend
 
 ## Star schema
 
+Jesli chcesz najpierw uporzadkowac oznaczenia `1:N` i sposob laczenia tabel, przeczytaj [lekcje o relacjach jeden do jednego, jeden do wielu i wiele do wielu](10_relacje_miedzy_tabelami.md). Przyklady bazuja na znanych tabelach `customers`, `orders`, `order_items` i `products`.
+
 Star schema to model:
 
 ```text
@@ -410,15 +437,30 @@ w centrum tabela faktow
 dookola tabele wymiarow
 ```
 
-Rysunek:
+![Schemat gwiazdy: fact_order_items w centrum oraz wymiary klienta, produktu, daty i kanalu sprzedazy, polaczone relacjami jeden do wielu.](assets/05_star_schema/01_star_schema.png)
 
-```text
-             dim_customer
-                  |
-dim_date -- fact_order_items -- dim_product
-                  |
-          dim_sales_channel
-```
+### Jak czytac ten diagram?
+
+Zielona tabela w centrum to fakt. Jeden jej wiersz opisuje jedna pozycje zamowienia. Przechowuje miary, np. `quantity` i `net_value`, oraz klucze wskazujace opisy w wymiarach.
+
+Niebieskie tabele to wymiary. Nie przechowuja tutaj kolejnych pozycji zamowienia, tylko informacje potrzebne do ich opisania:
+
+| Wymiar | Pytanie biznesowe | Przykladowe informacje |
+|---|---|---|
+| `dim_customer` | Kto kupil? | nazwa klienta, kraj |
+| `dim_product` | Co kupiono? | nazwa produktu, kategoria |
+| `dim_date` | Kiedy kupiono? | dzien, miesiac, rok |
+| `dim_sales_channel` | Gdzie kupiono? | sklep WWW, aplikacja mobilna |
+
+`PK` oznacza klucz glowny: identyfikuje konkretny wiersz tabeli. `FK` oznacza klucz obcy: wskazuje wiersz w powiazanej tabeli.
+
+Oznaczenia `1` i `N` przy polaczeniach czytamy jako **jeden do wielu**. Jeden produkt w `dim_product` moze zostac kupiony na wielu pozycjach zamowien. Kazda taka pozycja wskazuje przez `product_key` jeden konkretny wiersz wymiaru produktu.
+
+Na przyklad `product_key = 201` moze wystepowac w tysiacach wierszy faktu, ale w `dim_product` ten klucz glowny wystepuje tylko raz. Dzieki temu JOIN po tym kluczu dodaje opis produktu, a nie powiela pozycji zamowienia.
+
+W tym modelu `order_date_key` w fakcie wskazuje `date_key` w `dim_date`. Nazwy kolumn nie musza byc identyczne. Wazne, zeby wartosci i znaczenie kluczy do siebie pasowaly.
+
+Kanal sprzedazy to nie to samo co `acquisition_channel` klienta. Klient mogl trafic do firmy przez newsletter, ale dokonac zakupu w aplikacji mobilnej. Pierwsza informacja opisuje pozyskanie klienta, druga konkretna sprzedaz.
 
 Tabela faktow jest w centrum, bo przechowuje zdarzenia i miary.
 
@@ -476,6 +518,22 @@ To jest klasyczne pytanie analityczne:
 ```text
 ile sprzedalismy per miesiac, kraj i kategorie?
 ```
+
+### Od pozycji zamowienia do gotowego raportu
+
+![Przejscie od trzech pozycji faktu przez dopasowanie opisow z wymiarow do raportu sprzedazy wedlug miesiaca, kraju i kategorii.](assets/05_star_schema/03_od_faktow_do_raportu.png)
+
+Ilustracja pokazuje logike poprzedniego zapytania na malym zestawie danych. To przyklad modelu do zbudowania, a nie zalozenie, ze schemat `star` jest juz utworzony w Twojej bazie.
+
+1. **Zaczynamy od faktu.** Widzimy klucze i kwoty, ale sam `customer_key = 11` nie mowi jeszcze, z jakiego kraju jest klient.
+2. **JOIN dodaje kontekst.** Wymiar klienta pozwala odczytac kraj, wymiar produktu kategorie, a wymiar daty rok i miesiac. Nie laczymy wymiarow ze soba: kazdy dolaczamy do faktu po odpowiednim kluczu.
+3. **GROUP BY wyznacza grupy raportu.** Wszystkie pozycje z tym samym rokiem, miesiacem, krajem i kategoria trafiaja do jednej grupy. `SUM(f.net_value)` liczy ich laczna wartosc.
+
+Przed agregacja grain to **jedna pozycja zamowienia**. Po agregacji grain wyniku to **jeden miesiac danego roku + kraj + kategoria**. To juz nie jest lista pojedynczych zakupow.
+
+W malym przykladzie na ilustracji kazda z trzech pozycji trafia do innej grupy. Gdybysmy dodali kolejna pozycje z maja 2026, z kraju `PL` i kategorii `course`, jej wartosc powiekszylaby istniejacy wiersz raportu dla tej grupy.
+
+Suma kontrolna wynosi `300.20` przed agregacja i po niej. Przy pokazanych JOIN-ach kazdy klucz faktu ma dokladnie jedno dopasowanie w wymiarze. Brak dopasowania przy `INNER JOIN` usunalby pozycje z raportu, a nieunikalne dopasowania moglyby zawyzyc sume.
 
 ## Natural key i surrogate key
 
