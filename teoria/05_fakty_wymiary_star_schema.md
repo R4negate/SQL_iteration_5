@@ -71,6 +71,7 @@ dim_product
 dim_date
 dim_sales_channel
 ```
+(dim to skrót od dimension, czyli wymiar)
 
 Różnica:
 
